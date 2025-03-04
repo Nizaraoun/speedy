@@ -1,0 +1,11 @@
+/* Global styles for the dialog */
+.custom-dialog {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Overlay background */
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  

@@ -1,0 +1,196 @@
+<div class="container py-4">
+  <div class="card shadow-sm border-0 rounded-lg">
+    <div class="card-body p-4">
+      <h2 class="card-title text-center mb-4 position-relative">
+        Trip Details
+        <span class="d-block position-relative mx-auto mt-2 underline-accent"></span>
+      </h2>
+      
+      <form #tripForm="ngForm" (ngSubmit)="onSubmit(tripForm)" class="trip-form">
+        
+        <!-- Trip Details -->
+        <div class="mb-3">
+          <label for="tripDetails" class="form-label">Trip Details *</label>
+          <input 
+            type="text" 
+            id="tripDetails" 
+            name="tripDetails" 
+            ngModel
+            required
+            class="form-control"
+            #tripDetails="ngModel"
+            [ngClass]="{'is-invalid': tripDetails.invalid && tripDetails.touched}"
+            placeholder="Detailed description of the trip">
+          <div *ngIf="tripDetails.invalid && tripDetails.touched" class="text-danger small mt-1">
+            <span *ngIf="tripDetails.errors?.['required']">Trip details are required</span>
+          </div>
+        </div>
+        
+        <!-- Departure Location -->
+        <div class="mb-3">
+          <label for="departureLocation" class="form-label">Departure Location *</label>
+          <input 
+            type="text" 
+            id="departureLocation" 
+            name="departureLocation" 
+            ngModel
+            required
+            class="form-control"
+            #departureLocation="ngModel"
+            [ngClass]="{'is-invalid': departureLocation.invalid && departureLocation.touched}"
+            placeholder="Enter departure location">
+          <div *ngIf="departureLocation.invalid && departureLocation.touched" class="text-danger small mt-1">
+            <span *ngIf="departureLocation.errors?.['required']">Departure location is required</span>
+          </div>
+        </div>
+        
+        <!-- Arrival Location -->
+        <div class="mb-3">
+          <label for="arrivalLocation" class="form-label">Arrival Location *</label>
+          <input 
+            type="text" 
+            id="arrivalLocation" 
+            name="arrivalLocation" 
+            ngModel
+            required
+            class="form-control"
+            #arrivalLocation="ngModel"
+            [ngClass]="{'is-invalid': arrivalLocation.invalid && arrivalLocation.touched}"
+            placeholder="Enter arrival location">
+          <div *ngIf="arrivalLocation.invalid && arrivalLocation.touched" class="text-danger small mt-1">
+            <span *ngIf="arrivalLocation.errors?.['required']">Arrival location is required</span>
+          </div>
+        </div>
+        
+        <!-- Destination -->
+        <div class="mb-3">
+          <label for="destination" class="form-label">Destination *</label>
+          <input 
+            type="text" 
+            id="destination" 
+            name="destination" 
+            ngModel
+            required
+            class="form-control"
+            #destination="ngModel"
+            [ngClass]="{'is-invalid': destination.invalid && destination.touched}"
+            placeholder="Enter destination">
+          <div *ngIf="destination.invalid && destination.touched" class="text-danger small mt-1">
+            <span *ngIf="destination.errors?.['required']">Destination is required</span>
+          </div>
+        </div>
+        
+        <!-- Departure Date -->
+        <div class="mb-3">
+          <label for="departureDate" class="form-label">Departure Date *</label>
+          <input 
+            type="date" 
+            id="departureDate" 
+            name="departureDate" 
+            ngModel
+            required
+            class="form-control"
+            #departureDate="ngModel"
+            [ngClass]="{'is-invalid': departureDate.invalid && departureDate.touched}">
+          <div *ngIf="departureDate.invalid && departureDate.touched" class="text-danger small mt-1">
+            <span *ngIf="departureDate.errors?.['required']">Departure date is required</span>
+          </div>
+        </div>
+        
+        <!-- Arrival Date -->
+        <div class="mb-3">
+          <label for="arrivalDate" class="form-label">Arrival Date *</label>
+          <input 
+            type="date" 
+            id="arrivalDate" 
+            name="arrivalDate" 
+            ngModel
+            required
+            class="form-control"
+            #arrivalDate="ngModel"
+            [ngClass]="{'is-invalid': arrivalDate.invalid && arrivalDate.touched}">
+          <div *ngIf="arrivalDate.invalid && arrivalDate.touched" class="text-danger small mt-1">
+            <span *ngIf="arrivalDate.errors?.['required']">Arrival date is required</span>
+          </div>
+        </div>
+        
+        <!-- Departure Time -->
+        <div class="mb-3">
+          <label for="departureTime" class="form-label">Departure Time *</label>
+          <input 
+            type="time" 
+            id="departureTime" 
+            name="departureTime" 
+            ngModel
+            required
+            class="form-control"
+            #departureTime="ngModel"
+            [ngClass]="{'is-invalid': departureTime.invalid && departureTime.touched}">
+          <div *ngIf="departureTime.invalid && departureTime.touched" class="text-danger small mt-1">
+            <span *ngIf="departureTime.errors?.['required']">Departure time is required</span>
+          </div>
+        </div>
+        
+        <!-- Arrival Time -->
+        <div class="mb-3">
+          <label for="arrivalTime" class="form-label">Arrival Time *</label>
+          <input 
+            type="time" 
+            id="arrivalTime" 
+            name="arrivalTime" 
+            ngModel
+            required
+            class="form-control"
+            #arrivalTime="ngModel"
+            [ngClass]="{'is-invalid': arrivalTime.invalid && arrivalTime.touched}">
+          <div *ngIf="arrivalTime.invalid && arrivalTime.touched" class="text-danger small mt-1">
+            <span *ngIf="arrivalTime.errors?.['required']">Arrival time is required</span>
+          </div>
+        </div>
+        
+        <!-- Price -->
+
+        
+        <!-- Vehicle Type -->
+        <div class="mb-3">
+          <label for="vehicleType" class="form-label">Vehicle Type *</label>
+          <select 
+            id="vehicleType" 
+            name="vehicleType" 
+            ngModel
+            required
+            class="form-select"
+            #vehicleType="ngModel"
+            [ngClass]="{'is-invalid': vehicleType.invalid && vehicleType.touched}">
+            <option value="" disabled selected>Select vehicle type</option>
+            <option value="STANDARD">STANDARD</option>
+            <option value="LUXURY">LUXURY</option>
+            <option value="ECONOMY">ECONOMY</option>
+          </select>
+          <div *ngIf="vehicleType.invalid && vehicleType.touched" class="text-danger small mt-1">
+            <span *ngIf="vehicleType.errors?.['required']">Vehicle type is required</span>
+          </div>
+        </div>
+        
+        <!-- Reservation ID -->
+        
+        
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-between mt-4">
+          <button 
+            type="button" 
+            (click)="tripForm.resetForm()" 
+            class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-counterclockwise me-1"></i> Reset
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary">
+            <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ isSubmitting ? 'Saving...' : 'Save Trip' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
