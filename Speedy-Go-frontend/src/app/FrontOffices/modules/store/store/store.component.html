@@ -93,6 +93,9 @@
           <button class="btn-icon btn-delete" (click)="store.storeID && deleteStore(store.storeID)" title="Delete">
             <i class="fas fa-trash"></i>
           </button>
+          <button class="btn-icon btn-add"
+          
+          (click)="store.storeID && addOffer(store.storeID)" *ngIf="canEditOrDelete()">+ </button>
         </div>
       </div>
     </div>
@@ -100,6 +103,5 @@
     <div *ngIf="filteredStores.length > pageSize" class="pagination">
       <button class="pagination-button" (click)="previousPage()" [disabled]="pageIndex === 0">Previous</button>
       <span class="pagination-text">Page {{pageIndex + 1}} of {{totalPages}}</span>
-      <button class="pagination-button" (click)="nextPage()" [disabled]="pageIndex >= totalPages - 1">Next</button>
     </div>
   </div>

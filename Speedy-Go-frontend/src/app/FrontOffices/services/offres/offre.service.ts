@@ -1,7 +1,8 @@
 // offers.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 export interface Store {
   storeID: number;
@@ -28,30 +29,44 @@ export class OffersService {
   
   constructor(private http: HttpClient) {}
   
-    private getHeaders(): HttpHeaders {
-      const token = localStorage.getItem('token');
-      return new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      });
-    }
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
   getAllOffers(): Observable<Offer[]> {
-    return this.http.get<Offer[]>(`${this.baseUrl}/all`,{ headers: this.getHeaders() });
+    return this.http.get<Offer[]>(`${this.baseUrl}/all`, { headers: this.getHeaders() });
   }
   
   getOfferById(id: number): Observable<Offer> {
-    return this.http.get<Offer>(`${this.baseUrl}/${id}`,{ headers: this.getHeaders() });
+    return this.http.get<Offer>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
   }
   
   createOffer(offer: Offer, storeId: number): Observable<Offer> {
-    return this.http.post<Offer>(`${this.baseUrl}/add/${storeId}`, offer,{ headers: this.getHeaders() });
+    return this.http.post<Offer>(`${this.baseUrl}/add/${storeId}`, offer, { headers: this.getHeaders() })
+      .pipe(
+        map(response => {
+          if (typeof response === 'object') {
+            return response as Offer;
+          } else {
+            throw new HttpErrorResponse({ error: 'Invalid response format', status: 200 });
+          }
+        }),
+        catchError(error => {
+          console.error('Error creating offer', error);
+          return throwError(error);
+        })
+      );
   }
   
   updateOffer(offer: Offer): Observable<Offer> {
-    return this.http.put<Offer>(`${this.baseUrl}/update`, offer,{ headers: this.getHeaders() });
+    return this.http.put<Offer>(`${this.baseUrl}/update`, offer, { headers: this.getHeaders() });
   }
   
   deleteOffer(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`,{ headers: this.getHeaders() });
+    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
   }
 }

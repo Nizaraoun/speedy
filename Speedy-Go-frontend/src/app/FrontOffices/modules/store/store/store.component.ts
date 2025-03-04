@@ -230,5 +230,11 @@ export class StoreListComponent implements OnInit {
   canEditOrDelete(): boolean {
     return this.userRole !== 'CUSTOMER' && this.userRole !== 'DELEVERY';
   }
+
+  addOffer(storeId: number): void {
+    this.router.navigate(['/add-offer'], {
+      queryParams: { storeId }
+    });
+  }
 }
 

@@ -28,7 +28,7 @@ public class OffresRestController {
             if (idStore != null) {
             
             Offres savedOffre = offresServices.addOffre(offre,idStore);
-            return new ResponseEntity<>(savedOffre, HttpStatus.CREATED);
+            return new ResponseEntity<>(savedOffre, HttpStatus.OK);
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Store ID is required");
         } catch (IllegalArgumentException e) {

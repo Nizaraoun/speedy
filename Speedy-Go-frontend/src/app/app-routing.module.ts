@@ -22,6 +22,7 @@ import { TripListComponent } from './FrontOffices/modules/trips/trip-list/trip-l
 import { SpecificTripFormComponent } from './FrontOffices/modules/trips/specific-trip-form/specific-trip-form.component';
 import { addstoreComponent } from './FrontOffices/modules/store/Component/add-store/add-store.component';
 import { SpecificTripDetailComponent } from './FrontOffices/modules/trips/specific-trip-detail/specific-trip-detail.component';
+import { AddOfferComponent } from './FrontOffices/modules/store/Component/add-offer/add-offer.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
    {
     path: 'offres',
     component: OffresComponent,
+   },
+   {
+    path: 'add-offer',
+    component: AddOfferComponent,
    },
    {
     path: 'tripdetail/:id',

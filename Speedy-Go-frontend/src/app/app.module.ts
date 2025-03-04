@@ -38,6 +38,7 @@ import { SpecificTripFormComponent } from './FrontOffices/modules/trips/specific
 import { TripEditDialogComponent } from './FrontOffices/modules/trips/trip-edit-dialog/trip-edit-dialog.component';
 import { addstoreComponent } from './FrontOffices/modules/store/Component/add-store/add-store.component';
 import { SpecificTripDetailComponent } from './FrontOffices/modules/trips/specific-trip-detail/specific-trip-detail.component';
+import { AddOfferComponent } from './FrontOffices/modules/store/Component/add-offer/add-offer.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ TripDetailComponent,
 SpecificTripFormComponent    ,
 TripEditDialogComponent,
 addstoreComponent,
-SpecificTripDetailComponent
+SpecificTripDetailComponent,
+AddOfferComponent
   ],
   imports: [
     BrowserModule,
