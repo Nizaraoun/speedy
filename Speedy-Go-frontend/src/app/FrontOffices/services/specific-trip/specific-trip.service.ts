@@ -27,23 +27,25 @@ export class SpecificTripService {
     return this.http.get<SpecificTrip[]>(this.API_URL, { headers: this.getHeaders() });
   }
 
-  
-  createTripLegacy(trip: any): Observable<any> {
-    console.log('Creating trip:', trip);
-    return this.http.post(`${this.API_URL}/create`, trip, { headers: this.getHeaders() });
+  createTripLegacy(trip: any, file?: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('trip', JSON.stringify(trip));
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+    return this.http.post(`${this.API_URL}/create`, formData, {
+      headers: this.getHeaders().delete('Content-Type')
+    });
   }
 
-  updateTrip(id: number, trip: any): Observable<any> {
-    return this.http.put(`${this.API_URL}/${id}`, trip, { headers: this.getHeaders() });
+  updateTrip( trip: SpecificTrip): Observable<any> {
+    return this.http.put(`${this.API_URL}/${trip.id}`, trip, { headers: this.getHeaders() });
   }
 
   deleteTrip(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`, { headers: this.getHeaders() });
   }
 
-  getTripsByDestination(destination: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.API_URL}/search/destination/${destination}`, { headers: this.getHeaders() });
-  }
 
   getTripsByVehicleType(vehicleType: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/search/vehicle-type/${vehicleType}`, { headers: this.getHeaders() });

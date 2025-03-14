@@ -21,8 +21,10 @@ export class SpecificTripFormComponent {
       this.isSubmitting = true;
       
       const tripData = form.value;
+      const fileInput = document.getElementById('photo') as HTMLInputElement;
+      const file = fileInput && fileInput.files ? fileInput.files[0] : undefined;
       
-      this.specificTripService.createTripLegacy(tripData).subscribe({
+      this.specificTripService.createTripLegacy(tripData, file).subscribe({
         next: (response) => {
           console.log('Trip created successfully', response);
           this.isSubmitting = false;
@@ -31,7 +33,6 @@ export class SpecificTripFormComponent {
         error: (error) => {
           console.error('Error creating trip', error);
           this.isSubmitting = false;
-          // Handle error - could add a toast notification here
         }
       });
     } else {

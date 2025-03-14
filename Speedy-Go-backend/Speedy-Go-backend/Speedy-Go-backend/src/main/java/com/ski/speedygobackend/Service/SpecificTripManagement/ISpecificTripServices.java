@@ -15,12 +15,10 @@ public interface ISpecificTripServices {
     SpecifiqueTrip updateTrip(Long id, SpecifiqueTrip trip);
     void deleteTrip(Long id);
 
-
+    void deleteAllTrips();
 
     // Méthodes de recherche avancées
-    List<SpecifiqueTrip> findTripsByDestination(String destination);
-    List<SpecifiqueTrip> findTripsByVehicleType(VehicleType vehicleType);
-    List<SpecifiqueTrip> findTripsByPriceLessThan(double price);
     List<SpecifiqueTrip> findTripsByDepartureDate(LocalDate departureDate);
+
 
 }

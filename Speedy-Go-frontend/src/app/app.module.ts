@@ -70,7 +70,7 @@ SpecificTripFormComponent    ,
 TripEditDialogComponent,
 addstoreComponent,
 SpecificTripDetailComponent,
-AddOfferComponent
+AddOfferComponent,
   ],
   imports: [
     BrowserModule,

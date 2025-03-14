@@ -39,7 +39,7 @@ const routes: Routes = [
     component: StoreListComponent,
    },
    {
-    path: 'offres',
+    path: 'offres/:id',
     component: OffresComponent,
    },
    {

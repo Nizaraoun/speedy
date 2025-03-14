@@ -33,15 +33,34 @@ export class StoreService {
     return this.http.get<Store[]>(`${this.API_URL}/type/${type}`, { headers: this.getHeaders() });
   }
 
-  addStore(store: Store): Observable<Store> {
-    return this.http.post<Store>(`${this.API_URL}/add`, store, { headers: this.getHeaders() });
+  addStore(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.API_URL}/add`, formData, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }),
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
-  updateStore(store: Store,): Observable<Store> {
+  updateStore(store: Store): Observable<Store> {
     return this.http.put<Store>(`${this.API_URL}/update/${store.storeID}`, store, { headers: this.getHeaders() });
   }
 
   deleteStore(id: number): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/delete/${id}`, { headers: this.getHeaders() });
+  }
+
+  uploadFile(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.http.post<any>(`${this.API_URL}/upload`, formData, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }),
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

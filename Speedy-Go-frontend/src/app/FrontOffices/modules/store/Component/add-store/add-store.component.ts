@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StoreService } from 'src/app/FrontOffices/services/store/store.service';
 import { StoreType, StoreStatus, Store } from '../../store/model/store';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-store',
@@ -15,6 +16,8 @@ export class addstoreComponent implements OnInit {
   StoreStatuses = Object.values(StoreStatus);
   isSubmitting = false;
   dialogTitle: string;
+  selectedFile: File | null = null;
+  uploadProgress: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -70,10 +73,37 @@ export class addstoreComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile(): void {
+    if (this.selectedFile) {
+      this.storeService.uploadFile(this.selectedFile).subscribe({
+        next: (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+          } else if (event.type === HttpEventType.Response) {
+            console.log('File uploaded successfully', event.body);
+          }
+        },
+        error: (error) => {
+          console.error('Error uploading file', error);
+        }
+      });
+    }
+  }
+
   onSubmit(): void {
     if (this.StoreForm.valid) {
       this.isSubmitting = true;
       const storeData = this.StoreForm.value;
+
+      const formData: FormData = new FormData();
+      formData.append('store', new Blob([JSON.stringify(storeData)], { type: 'application/json' }));
+      if (this.selectedFile) {
+        formData.append('file', this.selectedFile, this.selectedFile.name);
+      }
 
       if (this.dialogTitle === 'Edit Store') {
         this.storeService.updateStore(storeData).subscribe({
@@ -92,7 +122,7 @@ export class addstoreComponent implements OnInit {
           storeData.user = parseInt(userId, 10);
         }
 
-        this.storeService.addStore(storeData).subscribe({
+        this.storeService.addStore(formData).subscribe({
           next: () => {
             this.isSubmitting = false;
             this.router.navigate(['/storlist']);

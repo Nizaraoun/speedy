@@ -1,8 +1,6 @@
 package com.ski.speedygobackend.Entity.SpecificTripManagement;
-
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ski.speedygobackend.Enum.VehicleType;
+import com.ski.speedygobackend.Enum.ParcelType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,12 +26,12 @@ public class SpecifiqueTrip implements Serializable {
     private String departureLocation;
     @JsonProperty("arrivalLocation")
     private String arrivalLocation;
-    @JsonProperty("price")
-    private double price;
+    @JsonProperty("size")
+    private double size;
 
 
-    @JsonProperty("destination")
-    private String destination;
+    @JsonProperty("description")
+    private String description;
 
 
     @JsonProperty("departureDate")
@@ -49,12 +47,33 @@ public class SpecifiqueTrip implements Serializable {
 
 
     @Enumerated(EnumType.STRING)
-    @JsonProperty("vehicleType")
-    private VehicleType vehicleType;
+    @JsonProperty("parcelType")
+    private ParcelType parcelType;
 
+    @JsonProperty("receiverFullName")
+    private String receiverFullName;
 
+    @JsonProperty("receiverPhoneNumber")
+    private String receiverPhoneNumber;
 
+    @JsonProperty("parcelDescription")
+    private String parcelDescription;
 
+    @JsonProperty("parcelHeight")
+    private double parcelHeight;
+
+    @JsonProperty("parcelWidth")
+    private double parcelWidth;
+
+    @JsonProperty("parcelLength")
+    private double parcelLength;
+
+    @JsonProperty("photo")
+    private String photo;
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
     @OneToOne
     private Reservation reservation;
 }

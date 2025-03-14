@@ -52,10 +52,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/upload/store/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("api/auth/register").permitAll()
                         .requestMatchers("/specific-trips/**").permitAll()
-                        .requestMatchers("/trips/**").permitAll()
+                        .requestMatchers("/stores/**").permitAll()
+                        .requestMatchers("/stores/images/**").permitAll()
+                        .requestMatchers("/offres/**").permitAll()
+
                 
                         // Permit auth endpoints
                         .anyRequest().authenticated() // Protect other requests

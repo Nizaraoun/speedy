@@ -69,4 +69,8 @@ export class OffersService {
   deleteOffer(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+  getOffersByStoreId(storeId: number): Observable<Offer[]> {
+    return this.http.get<Offer[]>(`${this.baseUrl}/all/${storeId}`, { headers: this.getHeaders() });
+  }
 }

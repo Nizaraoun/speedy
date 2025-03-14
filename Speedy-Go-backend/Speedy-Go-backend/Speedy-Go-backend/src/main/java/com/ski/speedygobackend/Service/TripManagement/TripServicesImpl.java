@@ -40,7 +40,7 @@ public Trip updateTrip(Long id, Trip trip) {
     System.out.println("Trip ID: " + trip);
     return tripRepository.findById(id).map(existingTrip -> {
         existingTrip.setTripDate(trip.getTripDate());
-        existingTrip.setDestination(trip.getDestination());
+        existingTrip.setDescription(trip.getDescription());
         existingTrip.setTripStatus(trip.getTripStatus());
         existingTrip.setParcels(trip.getParcels());
         existingTrip.setCarpoolings(trip.getCarpoolings());
@@ -50,6 +50,7 @@ public Trip updateTrip(Long id, Trip trip) {
         existingTrip.setVehicles(trip.getVehicles());
         existingTrip.setStartLocation(trip.getStartLocation());
         existingTrip.setEndLocation(trip.getEndLocation());
+        existingTrip.setPhoneNumber(trip.getPhoneNumber());
 
         return tripRepository.save(existingTrip);
     }).orElseThrow(() -> new EntityNotFoundException("Trip with ID " + id + " not found"));

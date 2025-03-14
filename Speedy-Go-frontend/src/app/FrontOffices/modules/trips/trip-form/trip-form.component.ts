@@ -26,9 +26,10 @@ export class TripFormComponent implements OnInit {
     this.tripForm = this.fb.group({
       start_location: ['', [Validators.required]],
       end_location: ['', [Validators.required]],
-      destination: ['', [Validators.required]],
+      description: ['', [Validators.required]],
       trip_date: ['', [Validators.required]],
-      trip_status: ['', [Validators.required]]
+      trip_status: ['', [Validators.required]],
+      phone_number: ['', Validators.required]
     });
   }
 

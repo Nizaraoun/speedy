@@ -21,7 +21,7 @@ public class OffresRestController {
     
     @PostMapping("/add/{id-store}")
     public ResponseEntity<?> addOffre(@RequestBody Offres offre , @PathVariable("id-store") Long idStore) {
-        System.out.println(idStore);
+        System.out.println(idStore);    
 
         try {
             // Ensure the store is set before saving the offer
@@ -37,9 +37,10 @@ public class OffresRestController {
     }
     
     // You might want to add other endpoints for the rest of your service methods
-    @GetMapping("/all")
-    public ResponseEntity<List<offresDetailsDTO>> getAllOffres() {
-        List<offresDetailsDTO> offres = offresServices.retrieveAllOffres();
+    @GetMapping("/all/{id-store}")
+    public ResponseEntity<List<offresDetailsDTO>> getAllOffresByStoreId (@PathVariable("id-store") Long idStore) {
+        List<offresDetailsDTO> offres = offresServices.retrieveAllOffresByStoreID(idStore);
+        // List<offresDetailsDTO> offres = offresServices.retrieveAllOffres();
         return ResponseEntity.ok(offres);
     }
     

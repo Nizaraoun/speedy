@@ -49,23 +49,43 @@
             </div>
           </div>
           
-          <!-- Destination -->
+          <!-- description -->
           <div class="mb-3">
-            <label for="destination" class="form-label">Destination *</label>
+            <label for="description" class="form-label">description *</label>
             <div class="input-group">
               <span class="input-group-text bg-light">
                 <i class="bi bi-compass"></i>
               </span>
               <input 
                 type="text" 
-                id="destination" 
-                formControlName="destination" 
+                id="description" 
+                formControlName="description" 
                 class="form-control"
-                [ngClass]="{'is-invalid': isFieldInvalid('destination')}"
-                placeholder="Enter main destination">
+                [ngClass]="{'is-invalid': isFieldInvalid('description')}"
+                placeholder="Enter main description">
             </div>
-            <div *ngIf="isFieldInvalid('destination')" class="text-danger small mt-1">
-              <span *ngIf="tripForm.get('destination')?.errors?.['required']">Destination is required</span>
+            <div *ngIf="isFieldInvalid('description')" class="text-danger small mt-1">
+              <span *ngIf="tripForm.get('description')?.errors?.['required']">description is required</span>
+            </div>
+          </div>
+          
+          <!-- Phone Number -->
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number *</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="bi bi-telephone"></i>
+              </span>
+              <input 
+                type="text" 
+                id="phoneNumber" 
+                formControlName="phone_number" 
+                class="form-control"
+                [ngClass]="{'is-invalid': isFieldInvalid('phone_number')}"
+                placeholder="Enter phone number">
+            </div>
+            <div *ngIf="isFieldInvalid('phone_number')" class="text-danger small mt-1">
+              <span *ngIf="tripForm.get('phone_number')?.errors?.['required']">Phone number is required</span>
             </div>
           </div>
           

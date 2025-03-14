@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Modal } from 'bootstrap';
-import { Trip, TripService } from '../trip/trip.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Trip } from '../model/trip';
+import { TripService } from '../trip/trip.service';
 
 @Component({
   selector: 'app-trip-detail',
@@ -25,11 +26,12 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder
   ) {
     this.editForm = this.fb.group({
-      destination: ['', Validators.required],
+      description: ['', Validators.required],
       start_location: ['', Validators.required],
       end_location: ['', Validators.required],
       trip_date: ['', Validators.required],
-      trip_status: ['', Validators.required]
+      trip_status: ['', Validators.required],
+      phone_number: ['', Validators.required]
     });
   }
 

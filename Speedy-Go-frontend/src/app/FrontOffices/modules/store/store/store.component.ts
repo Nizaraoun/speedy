@@ -23,8 +23,10 @@ export class StoreListComponent implements OnInit {
     this.userRole = user.role || '';
   }
 
-  goToOffre() {
-    this.router.navigate(['/offres']);
+  goToOffre(
+    id: number
+  ) {
+    this.router.navigate(['/offres', id]);
   }
 
   stores: Store[] = [];
@@ -185,6 +187,10 @@ export class StoreListComponent implements OnInit {
 
     if (mode === 'edit') {
       storeData = this.stores.find(store => store.storeID === id);
+      if (storeData) {
+        this.updateStore(storeData);
+      }
+      
     }
 
     this.router.navigate(['/add-store'], {
@@ -216,7 +222,11 @@ export class StoreListComponent implements OnInit {
       store.user = parseInt(userId, 10);
     }
 
-    this.storeService.addStore(store).subscribe({
+    const formData = new FormData();
+    Object.keys(store).forEach(key => {
+      formData.append(key, (store as any)[key]);
+    });
+    this.storeService.addStore(formData).subscribe({
       next: (newStore) => {
         this.stores.push(newStore);
         this.filteredStores = this.stores;

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Modal } from 'bootstrap';
-import { Trip, TripService } from '../trip/trip.service';
 import { SpecificTripService } from 'src/app/FrontOffices/services/specific-trip/specific-trip.service';
 import { SpecificTrip } from 'src/app/FrontOffices/models/specific-trip.model';
 import { Router } from '@angular/router';
+import { Trip } from '../model/trip';
+import { TripService } from '../trip/trip.service';
 
 @Component({
   selector: 'app-trip-list',

@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Trip } from '../model/trip';
 
-export interface Trip {
-  id?: number;
-  start_location: string;
-  end_location: string;
-  destination: string;
-  trip_date: string;
-  trip_status: string;
-}
+
 
 @Injectable({
   providedIn: 'root'

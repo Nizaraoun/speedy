@@ -27,6 +27,10 @@ public class StoreDetailsDTO {
     private String email;
     private StoreType storeType;
     private StoreStatus storeStatus;
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
 
 

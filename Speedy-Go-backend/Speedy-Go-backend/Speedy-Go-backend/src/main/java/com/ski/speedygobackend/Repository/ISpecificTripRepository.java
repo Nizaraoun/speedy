@@ -11,13 +11,10 @@ import java.util.List;
 public interface ISpecificTripRepository extends JpaRepository<SpecifiqueTrip, Long> {
 
     // Recherche par destination
-    List<SpecifiqueTrip> findByDestination(String destination);
 
     // Recherche par type de véhicule
-    List<SpecifiqueTrip> findByVehicleType(com.ski.speedygobackend.Enum.VehicleType vehicleType);
 
     // Recherche par prix inférieur à une valeur donnée
-    List<SpecifiqueTrip> findByPriceLessThan(double price);
 
     // Recherche par date de départ
     List<SpecifiqueTrip> findByDepartureDate(java.time.LocalDate departureDate);

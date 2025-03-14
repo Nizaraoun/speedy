@@ -73,15 +73,7 @@
       </div>
       
       <!-- Image -->
-      <div class="form-group">
-        <label for="image" class="form-label">Image URL</label>
-        <input 
-          type="text" 
-          id="image" 
-          formControlName="image" 
-          class="form-input"
-          placeholder="Enter image URL">
-      </div>
+     
       
       <!-- Address -->
       <div class="form-group">
@@ -198,6 +190,21 @@
         </select>
       </div>
       
+      <!-- File Upload -->
+      <div class="form-group">
+        <label for="file" class="form-label">Upload File</label>
+        <input 
+          type="file" 
+          id="file" 
+          (change)="onFileSelected($event)" 
+          class="form-input">
+      </div>
+
+      <!-- Upload Progress -->
+      <div *ngIf="uploadProgress > 0" class="progress-bar">
+        <div class="progress" [style.width.%]="uploadProgress"></div>
+      </div>
+
       <!-- Form Actions -->
       <div class="form-actions">
         <button 

@@ -94,4 +94,20 @@ public class OffresServicesImpl implements IOffresServices {
         
         return offresRepository.save(offre);
     }
+
+    @Override
+    public List<offresDetailsDTO> retrieveAllOffresByStoreID(Long idStore) {
+        return offresRepository.findByStore_StoreID(idStore).stream().map(offre -> new offresDetailsDTO(
+            offre.getOffreId(),
+            offre.getTitle(),
+            offre.getDescription(),
+            offre.getDiscount(),
+            offre.getImage(),
+            offre.getPrice(),
+            offre.isAvailable(),
+            offre.getCategory(),
+            offre.getDateStart(),
+            offre.getStore().getName()
+        )).collect(Collectors.toList());
+    }
 }

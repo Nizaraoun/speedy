@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OffersService, Offer } from 'src/app/FrontOffices/services/offres/offre.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-offres',
@@ -11,7 +12,7 @@ export class OffresComponent implements OnInit {
   loading = true;
   error = false;
 
-  constructor(private offersService: OffersService) {}
+  constructor(private offersService: OffersService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loadOffers();
@@ -19,18 +20,25 @@ export class OffresComponent implements OnInit {
 
   loadOffers(): void {
     this.loading = true;
-    this.offersService.getAllOffers().subscribe({
-      next: (data) => {
-        this.offers = data;
-        this.loading = false;
-        console.log('Offers loaded', data);
-      },
-      error: (err) => {
-        console.error('Error loading offers', err);
-        this.error = true;
-        this.loading = false;
-      }
-    });
+    const storeId = this.route.snapshot.paramMap.get('id');
+    if (storeId) {
+      this.offersService.getOffersByStoreId(+storeId).subscribe({
+        next: (data) => {
+          this.offers = data;
+          this.loading = false;
+          console.log('Offers loaded', data);
+        },
+        error: (err) => {
+          console.error('Error loading offers', err);
+          this.error = true;
+          this.loading = false;
+        }
+      });
+    } else {
+      this.loading = false;
+      this.error = true;
+      console.error('No store ID found in the path');
+    }
   }
 
   calculateFinalPrice(offer: Offer): number {

@@ -12,6 +12,7 @@ public interface IOffresServices {
     Offres retrieveOffre(Long idOffre);
     void removeOffre(Long idOffre);
     Offres updateOffre(Offres offre);
+    List<offresDetailsDTO> retrieveAllOffresByStoreID(Long idStore);
 
 
 }

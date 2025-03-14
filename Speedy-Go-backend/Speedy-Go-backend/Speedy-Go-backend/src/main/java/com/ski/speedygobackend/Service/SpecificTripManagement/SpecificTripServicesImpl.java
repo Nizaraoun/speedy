@@ -60,14 +60,13 @@ public class SpecificTripServicesImpl implements ISpecificTripServices {
         return tripRepository.findById(id).map(trip -> {
             trip.setTripDetails(updatedTrip.getTripDetails());
             trip.setDepartureLocation(updatedTrip.getDepartureLocation());
-            trip.setDestination(updatedTrip.getDestination());
+            trip.setDescription(updatedTrip.getDescription());
             trip.setDepartureDate(updatedTrip.getDepartureDate());
             trip.setDepartureTime(updatedTrip.getDepartureTime());
             trip.setArrivalTime(updatedTrip.getArrivalTime());
-            trip.setVehicleType(updatedTrip.getVehicleType());
+            trip.setParcelType(updatedTrip.getParcelType());
             trip.setArrivalDate(updatedTrip.getArrivalDate());
             trip.setArrivalLocation(updatedTrip.getArrivalLocation());
-            // Carefully handle reservation to avoid FK issues
             if (updatedTrip.getReservation() != null && updatedTrip.getReservation().getReservationDate() != null) {
                 trip.setReservation(updatedTrip.getReservation());
             }
@@ -76,27 +75,26 @@ public class SpecificTripServicesImpl implements ISpecificTripServices {
         }).orElseThrow(() -> new RuntimeException("Trip not found with id: " + id));
     }
 
+
+
     @Override
     @Transactional
     public void deleteTrip(Long id) {
         tripRepository.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void deleteAllTrips() {
+        tripRepository.deleteAll();
+    }
+
+
     // Implementations for advanced search methods
-    @Override
-    public List<SpecifiqueTrip> findTripsByDestination(String destination) {
-        return tripRepository.findByDestination(destination);
-    }
+ 
+ 
 
-    @Override
-    public List<SpecifiqueTrip> findTripsByVehicleType(VehicleType vehicleType) {
-        return tripRepository.findByVehicleType(vehicleType);
-    }
 
-    @Override
-    public List<SpecifiqueTrip> findTripsByPriceLessThan(double price) {
-        return tripRepository.findByPriceLessThan(price);
-    }
 
     @Override
     public List<SpecifiqueTrip> findTripsByDepartureDate(LocalDate departureDate) {

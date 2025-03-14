@@ -5,6 +5,8 @@ import com.ski.speedygobackend.Entity.OfferManagement.Store;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface IStoreServices {
     Store addStore(Store store);
     
@@ -17,6 +19,7 @@ public interface IStoreServices {
     Store updateStore(Store store , Long idStore);
     
     List<Store> getStoresByType(String type);
+    // String uploadStoreImage(MultipartFile file);
     
     // Removed the redundant addNewStore method declaration
 }

@@ -48,7 +48,7 @@
   
     <div class="store-grid" *ngIf="!loading && filteredStores.length > 0">
       <div *ngFor="let store of paginatedStores" class="store-card">
-        <div class="card-image" [style.background-image]="'url(' + store.logo + ')'">
+        <div class="card-image" [style.background-image]="'url(' + store.image + ')'">
           <div class="card-badges">
             <span class="store-type" [ngClass]="store.storeType.toLowerCase()">
               <i [class]="'icon-' + getStoreTypeIcon(store.storeType)">
@@ -85,7 +85,7 @@
         
         <div class="card-actions">
           <button class="btn-icon btn-view"  title="View">
-            <i class="fas fa-eye" (click)="goToOffre()"></i>
+            <i class="fas fa-eye" (click)="store.storeID && goToOffre(store.storeID)"></i>
           </button>
           <button class="btn-icon btn-edit" (click)="store.storeID && openStore(store.storeID, 'edit')" title="Edit">
             <i class="fas fa-edit"></i>

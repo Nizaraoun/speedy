@@ -28,9 +28,10 @@ public class Trip implements Serializable {
     private Long id;
 
     private String tripDate;
-    private String destination;
+    private String description;
     private String startLocation;
     private String endLocation;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     TripStatus  tripStatus;
 

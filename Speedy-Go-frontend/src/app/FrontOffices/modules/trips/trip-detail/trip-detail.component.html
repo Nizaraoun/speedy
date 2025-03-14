@@ -33,7 +33,7 @@
       </div>
       
       <div class="card-body">
-        <h3 class="card-title h5 mb-4">{{ trip.destination }}</h3>
+        <h3 class="card-title h5 mb-4">{{ trip.description }}</h3>
         
         <div class="row g-4">
           <div class="col-md-6">
@@ -51,7 +51,7 @@
           <div class="col-md-6">
             <div class="detail-card">
               <div class="detail-icon">
-                <i class="bi bi-pin-map"></i>
+                <i class="bi bi-geo-alt"></i>
               </div>
               <div class="detail-content">
                 <h4 class="detail-title">End Location</h4>
@@ -83,6 +83,29 @@
               </div>
             </div>
           </div>
+
+          <div class="col-md-6">
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="bi bi-telephone"></i>
+              </div>
+              <div class="detail-content">
+                <h4 class="detail-title">Phone Number</h4>
+                <p class="detail-value">{{ trip.phone_number }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="detail-card">
+              <div class="detail-icon">
+                <i class="bi bi-compass"></i>
+              </div>
+              <div class="detail-content">
+                <h4 class="detail-title">description</h4>
+                <p class="detail-value">{{ trip.description }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -111,7 +134,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" *ngIf="trip">
-            Are you sure you want to delete this trip to <strong>{{ trip.destination }}</strong>?
+            Are you sure you want to delete this trip to <strong>{{ trip.description }}</strong>?
             <div class="alert alert-warning mt-3">
               <i class="bi bi-exclamation-triangle-fill me-2"></i>
               This action cannot be undone.
@@ -139,8 +162,8 @@
           <div class="modal-body">
             <form [formGroup]="editForm">
               <div class="mb-3">
-                <label for="destination" class="form-label">Destination</label>
-                <input type="text" id="destination" class="form-control" formControlName="destination">
+                <label for="description" class="form-label">description</label>
+                <input type="text" id="description" class="form-control" formControlName="description">
               </div>
               <div class="mb-3">
                 <label for="start_location" class="form-label">Start Location</label>
@@ -163,6 +186,14 @@
                   <option value="SCHEDULED">SCHEDULED</option>
                   <option value="PENDING">PENDING</option>
                 </select>
+              </div>
+              <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="text" id="phone_number" class="form-control" formControlName="phone_number">
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">description</label>
+                <input type="text" id="description" class="form-control" formControlName="description">
               </div>
             </form>
           </div>

@@ -61,7 +61,7 @@
           </div>
           
           <div class="card-body">
-            <h3 class="card-title mb-4">{{ trip.destination }}</h3>
+            <h3 class="card-title mb-4">{{ trip.description }}</h3>
             
             <div class="d-flex flex-column gap-3">
               <div class="d-flex align-items-center">
@@ -147,7 +147,7 @@
             </div>
           </div>
           <div class="card-body">
-            <h3 class="card-title mb-4">{{ trip.destination }}</h3>
+            <h3 class="card-title mb-4">{{ trip.description }}</h3>
             <div class="d-flex flex-column gap-3">
               <div class="d-flex align-items-center">
                 <div class="icon-wrapper bg-indigo-50 text-indigo-600 rounded-circle p-3 me-3">
@@ -203,15 +203,7 @@
                   <div class="fw-500">{{ trip.arrivalTime }}</div>
                 </div>
               </div>
-              <div class="d-flex align-items-center">
-                <div class="icon-wrapper bg-purple-50 text-purple-600 rounded-circle p-3 me-3">
-                  <i class="bi bi-currency-dollar fs-5"></i>
-                </div>
-                <div>
-                  <div class="text-xs text-muted">Price</div>
-                  <div class="fw-500">{{ trip.price | currency }}</div>
-                </div>
-              </div>
+             
               <div class="d-flex align-items-center">
                 <div class="icon-wrapper bg-purple-50 text-purple-600 rounded-circle p-3 me-3">
                   <i class="bi bi-info-circle fs-5"></i>
@@ -221,15 +213,7 @@
                   <div class="fw-500">{{ trip.tripDetails }}</div>
                 </div>
               </div>
-              <div class="d-flex align-items-center">
-                <div class="icon-wrapper bg-purple-50 text-purple-600 rounded-circle p-3 me-3">
-                  <i class="bi bi-truck fs-5"></i>
-                </div>
-                <div>
-                  <div class="text-xs text-muted">Vehicle Type</div>
-                  <div class="fw-500">{{ trip.vehicleType }}</div>
-                </div>
-              </div>
+              
             </div>
           </div>
           <div class="card-footer">
@@ -244,7 +228,7 @@
     </div>
   
     <!-- Modern Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -256,7 +240,7 @@
               <i class="bi bi-exclamation-octagon fs-4 text-rose-600 me-2"></i>
               This action is permanent and cannot be undone
             </div>
-            <p>Delete trip to <strong>{{ tripToDelete?.destination }}</strong>?</p>
+            <p>Delete trip to <strong>{{ tripToDelete?.description }}</strong>?</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
@@ -267,5 +251,5 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
