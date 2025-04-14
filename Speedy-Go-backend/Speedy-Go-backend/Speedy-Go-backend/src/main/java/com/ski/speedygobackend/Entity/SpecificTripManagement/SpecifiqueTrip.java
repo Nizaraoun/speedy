@@ -67,6 +67,8 @@ public class SpecifiqueTrip implements Serializable {
 
     @JsonProperty("parcelLength")
     private double parcelLength;
+    @JsonProperty("passThroughLocation")
+    private String passThroughLocation;
 
     @JsonProperty("photo")
     private String photo;

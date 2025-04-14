@@ -28,6 +28,7 @@ export class SpecificTripService {
   }
 
   createTripLegacy(trip: any, file?: File): Observable<any> {
+    console.log('Trip data++++++++++++++++:', trip);
     const formData: FormData = new FormData();
     formData.append('trip', JSON.stringify(trip));
     if (file) {

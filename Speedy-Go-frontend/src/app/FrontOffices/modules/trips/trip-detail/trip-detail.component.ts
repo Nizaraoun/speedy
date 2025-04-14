@@ -4,6 +4,7 @@ import { Modal } from 'bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Trip } from '../model/trip';
 import { TripService } from '../trip/trip.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-trip-detail',
@@ -19,11 +20,25 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
   editModal: Modal | null = null;
   editForm: FormGroup;
 
+  // Google Maps properties
+  apiLoaded = false;
+  mapOptions: google.maps.MapOptions | undefined;
+  startMarker: { position: google.maps.LatLngLiteral, options: google.maps.MarkerOptions } | undefined;
+  endMarker: { position: google.maps.LatLngLiteral, options: google.maps.MarkerOptions } | undefined;
+  routePath: google.maps.LatLngLiteral[] | undefined;
+  routeOptions: google.maps.PolylineOptions = {
+    strokeColor: '#0075FF',
+    strokeOpacity: 0.8,
+    strokeWeight: 5
+  };
+  googleMapsApiKey = 'AIzaSyBQyBRLDvdrrGQk3NT8Sm9c5lX7Nizvj24'; // Your API key
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private tripService: TripService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private httpClient: HttpClient
   ) {
     this.editForm = this.fb.group({
       description: ['', Validators.required],
@@ -39,6 +54,9 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(() => {
       this.loadTrip();
     });
+
+    // Load Google Maps API script
+    this.loadGoogleMapsScript();
   }
 
   ngAfterViewInit(): void {
@@ -52,6 +70,24 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
     const editModalElement = document.getElementById('editModal');
     if (editModalElement) {
       this.editModal = new Modal(editModalElement);
+    }
+  }
+
+  loadGoogleMapsScript(): void {
+    if (typeof google === 'undefined') {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${this.googleMapsApiKey}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        this.apiLoaded = true;
+        if (this.trip) {
+          this.initMap();
+        }
+      };
+      document.head.appendChild(script);
+    } else {
+      this.apiLoaded = true;
     }
   }
 
@@ -72,11 +108,129 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
         this.trip = data;
         this.editForm.patchValue(data);
         this.loading = false;
+        
+        // Initialize map if Google API is loaded
+        if (this.apiLoaded) {
+          this.initMap();
+        }
       },
       error: (err) => {
         console.error('Error fetching trip details', err);
         this.error = 'Failed to load trip details. Please try again later.';
         this.loading = false;
+      }
+    });
+  }
+
+  initMap(): void {
+    if (!this.trip) return;
+
+    // Geocode the start and end locations
+    this.geocodeStartAndEndLocations(this.trip.start_location, this.trip.end_location);
+  }
+
+  geocodeStartAndEndLocations(startLocation: string, endLocation: string): void {
+    const geocoder = new google.maps.Geocoder();
+    
+    // Geocode start location
+    geocoder.geocode({ address: startLocation }, (startResults, startStatus) => {
+      if (startStatus === google.maps.GeocoderStatus.OK && startResults && startResults[0]) {
+        const startLatLng = {
+          lat: startResults[0].geometry.location.lat(),
+          lng: startResults[0].geometry.location.lng()
+        };
+        
+        // Geocode end location
+        geocoder.geocode({ address: endLocation }, (endResults, endStatus) => {
+          if (endStatus === google.maps.GeocoderStatus.OK && endResults && endResults[0]) {
+            const endLatLng = {
+              lat: endResults[0].geometry.location.lat(),
+              lng: endResults[0].geometry.location.lng()
+            };
+            
+            // Set up map and markers
+            this.setupMapAndMarkers(startLatLng, endLatLng);
+            
+            // Calculate and display the route
+            this.calculateRoute(startLatLng, endLatLng);
+          } else {
+            console.error('Geocoding failed for end location:', endStatus);
+          }
+        });
+      } else {
+        console.error('Geocoding failed for start location:', startStatus);
+      }
+    });
+  }
+
+  setupMapAndMarkers(startLatLng: google.maps.LatLngLiteral, endLatLng: google.maps.LatLngLiteral): void {
+    // Calculate center point between start and end
+    const centerLat = (startLatLng.lat + endLatLng.lat) / 2;
+    const centerLng = (startLatLng.lng + endLatLng.lng) / 2;
+    
+    // Set map options with center and zoom
+    this.mapOptions = {
+      center: { lat: centerLat, lng: centerLng },
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: true,
+      streetViewControl: false
+    };
+    
+    // Create markers for start and end locations
+    this.startMarker = {
+      position: startLatLng,
+      options: {
+        title: 'Start Location',
+        animation: google.maps.Animation.DROP,
+        icon: {
+          url: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+          scaledSize: new google.maps.Size(40, 40)
+        }
+      }
+    };
+    
+    this.endMarker = {
+      position: endLatLng,
+      options: {
+        title: 'End Location',
+        animation: google.maps.Animation.DROP,
+        icon: {
+          url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+          scaledSize: new google.maps.Size(40, 40)
+        }
+      }
+    };
+  }
+
+  calculateRoute(startLatLng: google.maps.LatLngLiteral, endLatLng: google.maps.LatLngLiteral): void {
+    const directionsService = new google.maps.DirectionsService();
+    
+    directionsService.route({
+      origin: startLatLng,
+      destination: endLatLng,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, (response, status) => {
+      if (status === google.maps.DirectionsStatus.OK && response) {
+        const route = response.routes[0];
+        const path: google.maps.LatLngLiteral[] = [];
+        
+        // Extract path points from the route
+        if (route.overview_path) {
+          route.overview_path.forEach(point => {
+            path.push({
+              lat: point.lat(),
+              lng: point.lng()
+            });
+          });
+          
+          this.routePath = path;
+        }
+      } else {
+        console.error('Directions request failed:', status);
+        
+        // If directions fail, at least draw a straight line between points
+        this.routePath = [startLatLng, endLatLng];
       }
     });
   }

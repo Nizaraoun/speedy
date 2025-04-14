@@ -67,6 +67,7 @@ public class SpecificTripServicesImpl implements ISpecificTripServices {
             trip.setParcelType(updatedTrip.getParcelType());
             trip.setArrivalDate(updatedTrip.getArrivalDate());
             trip.setArrivalLocation(updatedTrip.getArrivalLocation());
+            trip.setPassThroughLocation(updatedTrip.getPassThroughLocation());
             if (updatedTrip.getReservation() != null && updatedTrip.getReservation().getReservationDate() != null) {
                 trip.setReservation(updatedTrip.getReservation());
             }

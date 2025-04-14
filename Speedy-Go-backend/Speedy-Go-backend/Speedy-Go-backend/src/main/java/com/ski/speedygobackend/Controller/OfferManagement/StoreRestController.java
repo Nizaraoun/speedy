@@ -48,7 +48,7 @@ public class StoreRestController {
             }
             
             // Handle file upload only if a file was provided
-            if (file != null && !file.isEmpty()) {
+            if (file != null && !file.isEmpty()) { 
                 try {
                     String imagePath = uploadImage.uploadStoreImage(file , "upload/store");
                     store.setImage(imagePath);

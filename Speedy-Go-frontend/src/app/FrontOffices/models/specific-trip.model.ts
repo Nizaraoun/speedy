@@ -3,6 +3,7 @@ export interface SpecificTrip {
   tripDetails: string;
   departureLocation: string;
   arrivalLocation: string;
+  passThroughLocation?: string; // New optional field for intermediate location
   size: number;
   description: string;
   departureDate: string;
@@ -17,6 +18,6 @@ export interface SpecificTrip {
   parcelWidth: number;
   parcelLength: number;
   photo: string;
-  reservation: any; // Assuming reservation is an object, adjust type as needed
+  reservation: any;
   trip_status: string;
 }

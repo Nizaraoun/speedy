@@ -74,6 +74,15 @@ const routes: Routes = [
     path: 'specific-trip-detail/:id',
     component: SpecificTripDetailComponent,
    },
+   {
+    path: 'statistique',
+    loadChildren: () => import('./FrontOffices/modules/statistique/statistique/statistique.module').then(m => m.StatistiqueModule)
+   },
+   {
+    path: 'fidelite',
+    loadChildren: () => import('./FrontOffices/modules/cartes-fidelite/cartes-fidelite.module').then(m => m.CartesFideliteModule)
+   },
+  
   
   {
     path: 'admin',

@@ -35,6 +35,19 @@
           </div>
         </div>
         
+        <!-- Add Pass Through Location if available -->
+        <div class="col-md-6" *ngIf="specificTrip.passThroughLocation">
+          <div class="detail-card">
+            <div class="detail-icon">
+              <i class="bi bi-pin-map"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-title">Passe par cette place</div>
+              <div class="detail-value">{{ specificTrip.passThroughLocation }}</div>
+            </div>
+          </div>
+        </div>
+        
         <div class="col-md-6">
           <div class="detail-card">
             <div class="detail-icon">
@@ -155,8 +168,6 @@
           </div>
         </div>
         
-        
-        
         <div class="col-12">
           <div class="detail-card">
             <div class="detail-icon">
@@ -177,6 +188,55 @@
             <div class="detail-content">
               <h4 class="detail-title">Trip Photo</h4>
               <img [src]="specificTrip.photo" alt="Trip Photo" class="img-fluid">
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Maps -->
+        <div class="col-12 mt-4">
+          <div class="detail-card">
+            <div class="detail-icon">
+              <i class="bi bi-map"></i>
+            </div>
+            <div class="detail-content">
+              <h4 class="detail-title">Trip Route</h4>
+              
+              <!-- Map loading indicator -->
+              <div *ngIf="mapLoading" class="map-loading-container">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading map...</span>
+                </div>
+                <p class="map-loading-text">Loading map and calculating route...</p>
+              </div>
+              
+              <div class="map-container">
+                <google-map 
+                  *ngIf="mapOptions" 
+                  height="400px" 
+                  width="100%" 
+                  [options]="mapOptions">
+                  <map-marker 
+                    *ngIf="startMarker"
+                    [position]="startMarker.position" 
+                    [options]="startMarker.options">
+                  </map-marker>
+                  <map-marker 
+                    *ngIf="waypointMarker"
+                    [position]="waypointMarker.position" 
+                    [options]="waypointMarker.options">
+                  </map-marker>
+                  <map-marker 
+                    *ngIf="endMarker" 
+                    [position]="endMarker.position" 
+                    [options]="endMarker.options">
+                  </map-marker>
+                  <map-polyline 
+                    *ngIf="routePath" 
+                    [path]="routePath" 
+                    [options]="routeOptions">
+                  </map-polyline>
+                </google-map>
+              </div>
             </div>
           </div>
         </div>
@@ -213,7 +273,6 @@
 </div>
 
 <!-- Update Trip Modal -->
-<!-- Update Trip Modal -->
 <div class="modal fade" id="updateTripModal" tabindex="-1" aria-labelledby="updateTripModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -229,11 +288,42 @@
           </div>
           <div class="mb-3">
             <label for="departureLocation" class="form-label">Departure Location</label>
-            <input type="text" id="departureLocation" formControlName="departureLocation" class="form-control">
+            <input 
+              type="text" 
+              id="departureLocation" 
+              formControlName="departureLocation" 
+              #departureLocationInput
+              class="form-control location-input"
+              placeholder="Enter departure location">
           </div>
+          
+          <!-- Pass Through Location Field -->
+          <div class="mb-3">
+            <label for="passThroughLocation" class="form-label">
+              Passe par cette place
+              <span class="small text-muted">(Optional)</span>
+            </label>
+            <input 
+              type="text" 
+              id="passThroughLocation" 
+              formControlName="passThroughLocation" 
+              #passThroughLocationInput
+              class="form-control location-input" 
+              placeholder="Enter an intermediate location (optional)">
+            <small class="form-text text-muted">
+              Add a location you want the trip to pass through on its route
+            </small>
+          </div>
+          
           <div class="mb-3">
             <label for="arrivalLocation" class="form-label">Arrival Location</label>
-            <input type="text" id="arrivalLocation" formControlName="arrivalLocation" class="form-control">
+            <input 
+              type="text" 
+              id="arrivalLocation" 
+              formControlName="arrivalLocation" 
+              #arrivalLocationInput
+              class="form-control location-input"
+              placeholder="Enter arrival location">
           </div>
           <div class="mb-3">
             <label for="departureDate" class="form-label">Departure Date</label>

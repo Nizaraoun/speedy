@@ -2,13 +2,16 @@ package com.ski.speedygobackend.Controller.OfferManagement;
 
 
 import com.ski.speedygobackend.Entity.OfferManagement.Offres;
+import com.ski.speedygobackend.Entity.OfferManagement.pointfidelite;
 import com.ski.speedygobackend.Service.OfferManagement.IOffresServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
- import com.ski.speedygobackend.DTO.offresDetailsDTO;
+
+import com.ski.speedygobackend.DTO.FideliteDTO;
+import com.ski.speedygobackend.DTO.offresDetailsDTO;
 
 
 @RequiredArgsConstructor
@@ -55,7 +58,41 @@ public class OffresRestController {
         Offres updatedOffre = offresServices.updateOffre(offre);
         return ResponseEntity.ok(updatedOffre);
     }
-    
+    @PostMapping("/Add-fidelite/{id-store}/{id}")
+    public   ResponseEntity<Integer> addFidelite(@PathVariable("id-store") Long idOffre, @PathVariable("id") Long id) {
+        Integer updatedOffre = offresServices.addFidelite(idOffre, id);
+        return ResponseEntity.ok(updatedOffre);
+    }
+    @GetMapping("/all-fidelite/{id}")
+    public ResponseEntity<?> getAllFidelite(@PathVariable("id") Long id) {
+        try {
+            List<FideliteDTO> fideliteList = offresServices.retrieveAllFideliteCart(id);
+            return ResponseEntity.ok(fideliteList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erreur lors de la récupération des points de fidélité: " + e.getMessage());
+        }
+    }
+
+    // Keep the existing endpoint with store ID for backward compatibility
+    @GetMapping("/all-fidelite/{id-store}/{id}")
+    public ResponseEntity<?> getAllFideliteByStore(@PathVariable("id-store") Long idStore, @PathVariable("id") Long id) {
+        try {
+            List<FideliteDTO> fideliteList = offresServices.retrieveAllFideliteCart(id);
+            // Filter by store if needed
+            if (idStore != null && idStore > 0) {
+                fideliteList = fideliteList.stream()
+                    .filter(fidelite -> fidelite.getStoreName() != null && 
+                            !fidelite.getStoreName().isEmpty())
+                    .toList();
+            }
+            return ResponseEntity.ok(fideliteList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erreur lors de la récupération des points de fidélité: " + e.getMessage());
+        }
+    }
+
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteOffre(@PathVariable("id") Long idOffre) {
         offresServices.removeOffre(idOffre);

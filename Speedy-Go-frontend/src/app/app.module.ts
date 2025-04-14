@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -78,7 +79,14 @@ AddOfferComponent,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatDialogModule,CommonModule, RouterModule, ReactiveFormsModule, FormsModule, BrowserAnimationsModule, MatDialogModule
+    MatDialogModule,
+    CommonModule, 
+    RouterModule, 
+    ReactiveFormsModule, 
+    FormsModule, 
+    BrowserAnimationsModule, 
+    MatDialogModule,
+    GoogleMapsModule
 ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

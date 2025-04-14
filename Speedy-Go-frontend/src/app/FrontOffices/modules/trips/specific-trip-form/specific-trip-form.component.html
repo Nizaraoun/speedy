@@ -35,13 +35,34 @@
             name="departureLocation" 
             ngModel
             required
-            class="form-control"
+            class="form-control location-input"
             #departureLocation="ngModel"
+            #departureLocationInput
             [ngClass]="{'is-invalid': departureLocation.invalid && departureLocation.touched}"
             placeholder="Enter departure location">
           <div *ngIf="departureLocation.invalid && departureLocation.touched" class="text-danger small mt-1">
             <span *ngIf="departureLocation.errors?.['required']">Departure location is required</span>
           </div>
+        </div>
+        
+        <!-- Pass Through Location (New Field) -->
+        <div class="mb-3">
+          <label for="passThroughLocation" class="form-label">
+            Passe par cette place (Pass through this place)
+            <span class="small text-muted">(Optional)</span>
+          </label>
+          <input 
+            type="text" 
+            id="passThroughLocation" 
+            name="passThroughLocation" 
+            ngModel
+            class="form-control location-input"
+            #passThroughLocation="ngModel"
+            #passThroughLocationInput
+            placeholder="Enter intermediate location (optional)">
+          <small class="form-text text-muted">
+            Add a location you want the trip to pass through on its route
+          </small>
         </div>
         
         <!-- Arrival Location -->
@@ -53,8 +74,9 @@
             name="arrivalLocation" 
             ngModel
             required
-            class="form-control"
+            class="form-control location-input"
             #arrivalLocation="ngModel"
+            #arrivalLocationInput
             [ngClass]="{'is-invalid': arrivalLocation.invalid && arrivalLocation.touched}"
             placeholder="Enter arrival location">
           <div *ngIf="arrivalLocation.invalid && arrivalLocation.touched" class="text-danger small mt-1">
@@ -199,19 +221,19 @@
         
         <!-- Parcel description -->
         <div class="mb-3">
-          <label for="parceldescription" class="form-label">Parcel description *</label>
+          <label for="parcelDescription" class="form-label">Parcel description *</label>
           <textarea 
-            id="parceldescription" 
-            name="parceldescription" 
+            id="parcelDescription" 
+            name="parcelDescription" 
             ngModel
             required
             class="form-control"
             rows="3"
-            #parceldescription="ngModel"
-            [ngClass]="{'is-invalid': parceldescription.invalid && parceldescription.touched}"
+            #parcelDescription="ngModel"
+            [ngClass]="{'is-invalid': parcelDescription.invalid && parcelDescription.touched}"
             placeholder="Describe the parcel contents"></textarea>
-          <div *ngIf="parceldescription.invalid && parceldescription.touched" class="text-danger small mt-1">
-            <span *ngIf="parceldescription.errors?.['required']">Parcel description is required</span>
+          <div *ngIf="parcelDescription.invalid && parcelDescription.touched" class="text-danger small mt-1">
+            <span *ngIf="parcelDescription.errors?.['required']">Parcel description is required</span>
           </div>
         </div>
         

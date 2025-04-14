@@ -41,12 +41,6 @@
   color: #FF6B6B;
 }
 
-
-
-
-
-
-
 /* discount-offer.component.scss */
 
 :host {
@@ -306,4 +300,244 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Payment Modal Styles */
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.payment-modal {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #777;
+}
+
+.payment-modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+
+.payment-modal-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.payment-modal-content {
+  padding: 20px;
+}
+
+.offer-summary {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+}
+
+.offer-summary h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.price-summary p {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.original {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.discount {
+  color: #e53935;
+  font-weight: bold;
+}
+
+.final-price {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.btn-acheter, .btn-paye, .btn-close {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-acheter {
+  background-color: #4CAF50;
+}
+
+.btn-acheter:hover {
+  background-color: #388E3C;
+}
+
+.btn-paye {
+  background-color: #2196F3;
+}
+
+.btn-paye:hover {
+  background-color: #1976D2;
+}
+
+.btn-paye:disabled {
+  background-color: #9E9E9E;
+  cursor: not-allowed;
+}
+
+.btn-close {
+  background-color: #607D8B;
+  margin-top: 15px;
+}
+
+.btn-close:hover {
+  background-color: #455A64;
+}
+
+.payment-form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.half {
+  flex: 1;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+}
+
+.dummy-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.spinner {
+  display: inline-block;
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.success-content {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.success-animation {
+  margin: 0 auto 20px;
+  width: 80px;
+  height: 80px;
+}
+
+.checkmark {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #4CAF50;
+  stroke-miterlimit: 10;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #4CAF50;
+  fill: none;
+  animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #4CAF5050;
+  }
+}
+
+.success-message h3 {
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
+
+.success-message p {
+  color: #555;
+  margin-bottom: 10px;
 }

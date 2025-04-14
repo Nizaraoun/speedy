@@ -58,7 +58,7 @@
             </div>
           </div>
           
-          <button class="claim-button" [disabled]="!offer.available">
+          <button class="claim-button" [disabled]="!offer.available" (click)="openPaymentModal(offer)">
             Réclamer l'offre
           </button>
         </div>
@@ -68,5 +68,83 @@
 
   <div *ngIf="error" class="error-message">
     <p>Échec du chargement des offres. Veuillez réessayer plus tard.</p>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="payment-modal-overlay" *ngIf="showPaymentModal" (click)="closePaymentModal()">
+  <div class="payment-modal" (click)="$event.stopPropagation()">
+    <!-- Close button -->
+    <button class="close-modal" (click)="closePaymentModal()" *ngIf="!paymentProcessing && paymentStep !== 3">×</button>
+    
+    <!-- Modal Header -->
+    <div class="payment-modal-header">
+      <h2 *ngIf="paymentStep < 3">Paiement</h2>
+      <h2 *ngIf="paymentStep === 3">Paiement Réussi</h2>
+    </div>
+    
+    <!-- Step 1: Initial Payment Form -->
+    <div class="payment-modal-content" *ngIf="paymentStep === 1">
+      <div class="offer-summary" *ngIf="selectedOffer">
+        <h3>{{selectedOffer.title}}</h3>
+        <div class="price-summary">
+          <p>Prix original: <span class="original">${{selectedOffer.price.toFixed(2)}}</span></p>
+          <p>Remise: <span class="discount">{{selectedOffer.discount}}%</span></p>
+          <p>Prix final: <span class="final-price">${{calculateFinalPrice(selectedOffer).toFixed(2)}}</span></p>
+        </div>
+      </div>
+      
+      <button class="btn-acheter" (click)="fillDummyPaymentForm()">Payer</button>
+    </div>
+    
+    <!-- Step 2: Filled Payment Form -->
+    <div class="payment-modal-content" *ngIf="paymentStep === 2">
+      <div class="payment-form">
+        <div class="form-group">
+          <label>Numéro de carte</label>
+          <div class="dummy-input">**** **** **** 4242</div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Date d'expiration</label>
+            <div class="dummy-input">12/25</div>
+          </div>
+          
+          <div class="form-group half">
+            <label>CVV</label>
+            <div class="dummy-input">***</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Nom sur la carte</label>
+          <div class="dummy-input">Ghada Ayedi</div>
+        </div>
+      </div>
+      
+      <button class="btn-paye" [disabled]="paymentProcessing" (click)="processPayment()">
+        <span *ngIf="!paymentProcessing">Payer</span>
+        <span *ngIf="paymentProcessing" class="spinner"></span>
+      </button>
+    </div>
+    
+    <!-- Step 3: Payment Success -->
+    <div class="payment-modal-content success-content" *ngIf="paymentStep === 3">
+      <div class="success-animation">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      
+      <div class="success-message">
+        <h3>Paiement Réussi!</h3>
+        <p>Votre transaction a été traitée avec succès.</p>
+        <p>Des points de fidélité ont été ajoutés à votre compte.</p>
+      </div>
+      
+      <button class="btn-close" (click)="closePaymentModal()">Fermer</button>
+    </div>
   </div>
 </div>

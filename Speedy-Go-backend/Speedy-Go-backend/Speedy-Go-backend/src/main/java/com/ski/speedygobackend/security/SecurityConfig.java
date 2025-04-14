@@ -59,6 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/stores/**").permitAll()
                         .requestMatchers("/stores/images/**").permitAll()
                         .requestMatchers("/offres/**").permitAll()
+                        .requestMatchers("/statistiques/**").permitAll()
 
                 
                         // Permit auth endpoints

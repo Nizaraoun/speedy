@@ -107,6 +107,36 @@
             </div>
           </div>
         </div>
+        
+        <!-- Google Maps -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <h4 class="mb-3">Trip Route</h4>
+            <div class="map-container">
+              <google-map 
+                *ngIf="mapOptions" 
+                height="400px" 
+                width="100%" 
+                [options]="mapOptions">
+                <map-marker 
+                  *ngIf="startMarker"
+                  [position]="startMarker.position" 
+                  [options]="startMarker.options">
+                </map-marker>
+                <map-marker 
+                  *ngIf="endMarker" 
+                  [position]="endMarker.position" 
+                  [options]="endMarker.options">
+                </map-marker>
+                <map-polyline 
+                  *ngIf="routePath" 
+                  [path]="routePath" 
+                  [options]="routeOptions">
+                </map-polyline>
+              </google-map>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div class="card-footer bg-white py-3">
