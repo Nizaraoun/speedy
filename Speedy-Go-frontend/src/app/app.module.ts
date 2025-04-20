@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { GoogleMapsModule } from '@angular/google-maps';
+// Removed duplicate import of BrowserAnimationsModule
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -40,6 +41,8 @@ import { TripEditDialogComponent } from './FrontOffices/modules/trips/trip-edit-
 import { addstoreComponent } from './FrontOffices/modules/store/Component/add-store/add-store.component';
 import { SpecificTripDetailComponent } from './FrontOffices/modules/trips/specific-trip-detail/specific-trip-detail.component';
 import { AddOfferComponent } from './FrontOffices/modules/store/Component/add-offer/add-offer.component';
+import { TunisiaRouteAnalyzerComponent } from './FrontOffices/modules/tunisia-route/tunisia-route-analyzer.component';
+import { TrakingComponent } from './FrontOffices/modules/trips/traking/traking.component';
 
 
 @NgModule({
@@ -63,15 +66,17 @@ import { AddOfferComponent } from './FrontOffices/modules/store/Component/add-of
     AddUserComponent,
     StoreListComponent,
     OffresComponent,
-DiscountOfferComponent,
-TripFormComponent,
-TripListComponent,
-TripDetailComponent,
-SpecificTripFormComponent    ,
-TripEditDialogComponent,
-addstoreComponent,
-SpecificTripDetailComponent,
-AddOfferComponent,
+    DiscountOfferComponent,
+    TripFormComponent,
+    TripListComponent,
+    TripDetailComponent,
+    SpecificTripFormComponent,
+    TripEditDialogComponent,
+    addstoreComponent,
+    SpecificTripDetailComponent,
+    AddOfferComponent,
+    TunisiaRouteAnalyzerComponent,
+    TrakingComponent,
   ],
   imports: [
     BrowserModule,

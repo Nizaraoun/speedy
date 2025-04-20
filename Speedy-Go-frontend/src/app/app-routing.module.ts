@@ -23,6 +23,8 @@ import { SpecificTripFormComponent } from './FrontOffices/modules/trips/specific
 import { addstoreComponent } from './FrontOffices/modules/store/Component/add-store/add-store.component';
 import { SpecificTripDetailComponent } from './FrontOffices/modules/trips/specific-trip-detail/specific-trip-detail.component';
 import { AddOfferComponent } from './FrontOffices/modules/store/Component/add-offer/add-offer.component';
+import { TunisiaRouteAnalyzerComponent } from './FrontOffices/modules/tunisia-route/tunisia-route-analyzer.component';
+import { TrakingComponent } from './FrontOffices/modules/trips/traking/traking.component';
 
 const routes: Routes = [
   {
@@ -73,6 +75,14 @@ const routes: Routes = [
    {
     path: 'specific-trip-detail/:id',
     component: SpecificTripDetailComponent,
+   },
+   {
+    path: 'tunisia-route',
+    component: TunisiaRouteAnalyzerComponent,
+   },
+   {
+    path: 'tracking',
+    component: TrakingComponent,
    },
    {
     path: 'statistique',

@@ -32,9 +32,11 @@ public class Offres {
     private String dateStart;
 
 
-
     @ManyToOne
     private Store store;
     @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL)
     private List<Parcel> parcels;
+    
+    @OneToMany(mappedBy = "offre", cascade = CascadeType.ALL)
+    private List<OffreComment> comments;
 }

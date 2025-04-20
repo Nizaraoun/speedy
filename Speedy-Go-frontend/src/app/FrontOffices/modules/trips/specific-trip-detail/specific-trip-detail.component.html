@@ -199,7 +199,14 @@
               <i class="bi bi-map"></i>
             </div>
             <div class="detail-content">
-              <h4 class="detail-title">Trip Route</h4>
+              <div class="d-flex justify-content-between align-items-center">
+                <h4 class="detail-title">Trip Route</h4>
+                <button *ngIf="startCoordinates && endCoordinates" 
+                        class="btn btn-primary btn-sm" 
+                        (click)="openTunisiaRouteAnalyzer()">
+                  <i class="bi bi-geo-alt-fill me-2"></i>Analyze Tunisia Governorates
+                </button>
+              </div>
               
               <!-- Map loading indicator -->
               <div *ngIf="mapLoading" class="map-loading-container">
@@ -236,6 +243,63 @@
                     [options]="routeOptions">
                   </map-polyline>
                 </google-map>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Governorates Section -->
+        <div class="col-12 mt-3">
+          <div class="detail-card governorates-card">
+            <div class="detail-icon">
+              <i class="bi bi-geo"></i>
+            </div>
+            <div class="detail-content">
+              <h4 class="detail-title">Tunisia Governorates Analysis</h4>
+              
+              <!-- Governorates loading indicator -->
+              <div *ngIf="governoratesLoading" class="governorates-loading">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading governorates...</span>
+                </div>
+                <p class="governorates-loading-text">Analyzing Tunisia regions for this route...</p>
+              </div>
+              
+              <div *ngIf="!governoratesLoading" class="governorates-container">
+                <div *ngIf="governorates.length === 0" class="text-center py-4">
+                  <i class="bi bi-map-fill text-muted fs-1 mb-3 d-block"></i>
+                  <p class="text-muted">No governorate information available for this route.</p>
+                </div>
+                
+                <div *ngIf="governorates.length > 0">
+                  <div class="route-timeline mb-4">
+                    <div *ngFor="let governorate of governorates; let i = index" class="governorate-step">
+                      <div class="step-number">{{ i + 1 }}</div>
+                      <div class="step-connection" *ngIf="i < governorates.length - 1"></div>
+                      <div class="step-content">
+                        <div class="governorate-card" (click)="showTouristAttractions(governorate)" role="button">
+                          <h5>{{ governorate }}</h5>
+                          <div class="small text-muted">Governorate of Tunisia</div>
+                          <div class="attractions-hint">
+                            <i class="bi bi-info-circle-fill me-1"></i>
+                            <small>Click to view tourist attractions</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h5 class="mb-3">Regions Summary</h5>
+                  <div class="governorate-pills-container">
+                    <div *ngFor="let governorate of governorates" 
+                         class="governorate-pill"
+                         (click)="showTouristAttractions(governorate)"
+                         role="button">
+                      <i class="bi bi-geo-alt-fill"></i>
+                      {{ governorate }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

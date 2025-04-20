@@ -1,12 +1,31 @@
 :host {
-  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-  --hover-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 50%, #db2777 100%);
-  --card-radius: 1.5rem;
+  --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+  --hover-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+  --card-radius: 16px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
 }
-.container{
-    padding: 2rem 0;
+
+.container {
+  padding: 2rem 0;
+  font-family: var(--font-sans);
 }
+
+.text-gradient {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.fw-800 {
+  font-weight: 800;
+}
+
 .trip-card {
   border: none;
   border-radius: var(--card-radius);
@@ -14,6 +33,8 @@
   transition: var(--transition);
   background: white;
   position: relative;
+  height: 100%;
+  box-shadow: var(--shadow-sm);
   
   &::before {
     content: '';
@@ -23,16 +44,13 @@
     right: 0;
     bottom: 0;
     border-radius: var(--card-radius);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     transition: var(--transition);
+    z-index: -1;
   }
 
   &:hover {
-    transform: translateY(-0.5rem);
-    
-    &::before {
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
     
     .card-header {
       background-position: 100% 50%;
@@ -41,7 +59,7 @@
   
   .card-header {
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
     background-size: 200% auto;
     transition: background-position 0.5s ease;
     border-bottom: none;
@@ -61,18 +79,20 @@
     color: #1e293b;
     font-size: 1.25rem;
     letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+    line-height: 1.4;
   }
   
   .card-body {
     padding: 1.5rem;
-    background: linear-gradient(to bottom right, rgba(241, 245, 249, 0.2), white);
+    background: linear-gradient(to bottom right, rgba(249, 250, 251, 0.5), white);
   }
   
   .card-footer {
-    background: rgba(241, 245, 249, 0.3);
-    border-top: 1px solid rgba(203, 213, 225, 0.3);
+    background: rgba(249, 250, 251, 0.5);
+    border-top: 1px solid rgba(229, 231, 235, 0.5);
     padding: 1.25rem 1.5rem;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
   }
 }
 
@@ -80,7 +100,7 @@
   background-image: var(--primary-gradient);
   background-size: 200% auto;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   transition: var(--transition);
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -98,21 +118,45 @@
   }
 }
 
+.btn-outline-primary {
+  color: #6366f1;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 12px;
+  background: white;
+  transition: var(--transition);
+  font-weight: 600;
+  
+  &:hover {
+    background-color: rgba(99, 102, 241, 0.05);
+    border-color: #6366f1;
+    color: #4f46e5;
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
 .dropdown-menu {
   border: none;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  padding: 0.75rem;
   margin-top: 0.5rem;
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .dropdown-item {
-  border-radius: 0.5rem;
+  border-radius: 8px;
   transition: var(--transition);
   font-weight: 500;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.25rem;
   
   &:hover {
-    background: #f8fafc;
+    background: #f1f5f9;
     transform: translateX(4px);
   }
   
@@ -121,20 +165,120 @@
   }
 }
 
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: var(--transition);
+  border: none;
+  background: transparent;
+  
+  &:hover {
+    background: rgba(241, 245, 249, 0.8);
+  }
+}
+
+.icon-wrapper {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.bg-indigo-50 {
+  background-color: rgba(238, 242, 255, 0.8);
+}
+
+.bg-pink-50 {
+  background-color: rgba(253, 242, 248, 0.8);
+}
+
+.bg-purple-50 {
+  background-color: rgba(245, 243, 255, 0.8);
+}
+
+.text-indigo-600 {
+  color: #4f46e5;
+}
+
+.text-pink-600 {
+  color: #db2777;
+}
+
+.text-purple-600 {
+  color: #7c3aed;
+}
+
+.badge {
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  &.bg-info {
+    background-color: rgba(96, 165, 250, 0.2) !important;
+    color: #2563eb;
+  }
+  
+  &.bg-warning {
+    background-color: rgba(251, 146, 60, 0.2) !important;
+    color: #ea580c;
+  }
+  
+  &.bg-success {
+    background-color: rgba(74, 222, 128, 0.2) !important;
+    color: #16a34a;
+  }
+  
+  &.bg-secondary {
+    background-color: rgba(148, 163, 184, 0.2) !important;
+    color: #475569;
+  }
+}
+
 .modal-content {
   border-radius: var(--card-radius);
   border: 1px solid rgba(203, 213, 225, 0.3);
   background: linear-gradient(to bottom right, white, rgba(248, 250, 252, 0.5));
   backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-xl);
 }
 
 .loading-skeleton {
   animation: shimmer 2s infinite linear;
   background: linear-gradient(90deg, #f8fafc 25%, #e2e8f0 50%, #f8fafc 75%);
   background-size: 400% 100%;
+  border-radius: var(--card-radius);
+  overflow: hidden;
 }
 
 @keyframes shimmer {
   from { background-position: 100% 0; }
   to { background-position: -100% 0; }
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1.125rem;
+  }
+  
+  .badge {
+    padding: 0.35rem 0.75rem;
+  }
 }

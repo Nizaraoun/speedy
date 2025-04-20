@@ -60,6 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/stores/images/**").permitAll()
                         .requestMatchers("/offres/**").permitAll()
                         .requestMatchers("/statistiques/**").permitAll()
+                        .requestMatchers("/tourist-places/**").permitAll()
 
                 
                         // Permit auth endpoints
