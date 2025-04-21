@@ -100,9 +100,8 @@ const routes: Routes = [
       { path: 'users', component: GestionUserComponent, canActivate: [BackofficeAuthGuard] },
       { path: 'home',component:BodyBackComponent,canActivate: [BackofficeAuthGuard]} ,
       { path: 'update-user/:id', component: UpdateUserComponent,canActivate: [BackofficeAuthGuard] },
-      { path: 'add-user', component: AddUserComponent ,canActivate: [BackofficeAuthGuard]}  // Route to AddUserComponent
-
-
+      { path: 'add-user', component: AddUserComponent ,canActivate: [BackofficeAuthGuard]},  // Route to AddUserComponent
+      { path: 'statistique', loadChildren: () => import('./FrontOffices/modules/statistique/statistique/statistique.module').then(m => m.StatistiqueModule), canActivate: [BackofficeAuthGuard] }
   ] },
   {path: 'loginAdmin', component:LoginComponent,},
   {path: 'login', component:LoginclientComponent},

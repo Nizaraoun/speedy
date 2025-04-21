@@ -15,4 +15,5 @@ public class OffreCommentDTO {
     private String username;
     private Long offreId;
     private LocalDateTime createdAt;
+    private Boolean badWord;
 }

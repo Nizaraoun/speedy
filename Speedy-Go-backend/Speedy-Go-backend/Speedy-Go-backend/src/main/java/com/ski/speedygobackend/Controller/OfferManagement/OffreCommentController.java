@@ -31,7 +31,10 @@ public class OffreCommentController {
                 return ResponseEntity.badRequest().body("Comment text cannot be empty");
             }
             
-            OffreComment savedComment = commentService.addComment(offreId, userId, username, text);
+            // Default to French if language is not provided
+            String language = commentBody.getOrDefault("language", "fr");
+            
+            OffreComment savedComment = commentService.addComment(offreId, userId, username, text, language);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -44,6 +47,19 @@ public class OffreCommentController {
     @GetMapping("/offre/{offreId}")
     public ResponseEntity<?> getCommentsByOffre(@PathVariable Long offreId) {
         try {
+            // Get only negative comments (badWord = true)
+            List<OffreCommentDTO> comments = commentService.getNegativeCommentsByOffre(offreId);
+            return ResponseEntity.ok(comments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching comments: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/offre/{offreId}/all")
+    public ResponseEntity<?> getAllCommentsByOffre(@PathVariable Long offreId) {
+        try {
+            // Get all comments regardless of sentiment
             List<OffreCommentDTO> comments = commentService.getCommentsByOffre(offreId);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
@@ -74,7 +90,10 @@ public class OffreCommentController {
                 return ResponseEntity.badRequest().body("Comment text cannot be empty");
             }
             
-            OffreComment updatedComment = commentService.updateComment(commentId, text);
+            // Default to French if language is not provided
+            String language = commentBody.getOrDefault("language", "fr");
+            
+            OffreComment updatedComment = commentService.updateComment(commentId, text, language);
             return ResponseEntity.ok(updatedComment);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

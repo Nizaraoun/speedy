@@ -18,18 +18,23 @@ public class OffreCommentServiceImpl implements IOffreCommentService {
 
     private final OffreCommentRepository commentRepository;
     private final IOffresRepository offresRepository;
+    private final BadWordService badWordService;
 
     @Override
     @Transactional
-    public OffreComment addComment(Long offreId, Long userId, String username, String text) {
+    public OffreComment addComment(Long offreId, Long userId, String username, String text, String language) {
         Offres offre = offresRepository.findById(offreId)
                 .orElseThrow(() -> new IllegalArgumentException("Offre with ID " + offreId + " not found"));
+
+        // Check for bad words using the Python API
+        Boolean containsBadWord = badWordService.checkForBadWords(text, language);
 
         OffreComment comment = new OffreComment();
         comment.setText(text);
         comment.setUserId(userId);
         comment.setUsername(username);
         comment.setOffre(offre);
+        comment.setBadWord(!containsBadWord);
         
         return commentRepository.save(comment);
     }
@@ -49,12 +54,24 @@ public class OffreCommentServiceImpl implements IOffreCommentService {
     }
 
     @Override
+    public List<OffreCommentDTO> getNegativeCommentsByOffre(Long offreId) {
+        return commentRepository.findByOffreOffreId(offreId).stream()
+                .filter(comment -> comment.getBadWord() != null && comment.getBadWord())
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
-    public OffreComment updateComment(Long commentId, String text) {
+    public OffreComment updateComment(Long commentId, String text, String language) {
         OffreComment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException("Comment with ID " + commentId + " not found"));
         
+        // Check for bad words using the Python API
+        Boolean containsBadWord = badWordService.checkForBadWords(text, language);
+        
         comment.setText(text);
+        comment.setBadWord(containsBadWord);
         return commentRepository.save(comment);
     }
 
@@ -74,7 +91,8 @@ public class OffreCommentServiceImpl implements IOffreCommentService {
                 comment.getUserId(),
                 comment.getUsername(),
                 comment.getOffre().getOffreId(),
-                comment.getCreatedAt()
+                comment.getCreatedAt(),
+                comment.getBadWord()
         );
     }
 }

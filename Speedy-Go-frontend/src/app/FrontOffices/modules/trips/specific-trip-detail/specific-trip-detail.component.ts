@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
   ]
 })
 export class SpecificTripDetailComponent implements OnInit {
-  specificTrip: SpecificTrip | null = null;
+  specificTrip: (SpecificTrip & { expanded?: boolean }) | null = null;
   loading = true;
   mapLoading = true; 
   error: string | null = null;
@@ -111,7 +111,11 @@ export class SpecificTripDetailComponent implements OnInit {
   loadSpecificTripDetails(id: number): void {
     this.specificTripService.getTripById(id).subscribe({
       next: (data: SpecificTrip) => {
-        this.specificTrip = data;
+        // Add expanded property to trip
+        this.specificTrip = {
+          ...data,
+          expanded: false
+        };
         this.loading = false;
         this.populateUpdateForm();
         
@@ -848,5 +852,21 @@ export class SpecificTripDetailComponent implements OnInit {
     }
     
     return starsHtml;
+  }
+
+  // Toggle expanded state for trip cards
+  toggleExpanded(): void {
+    if (this.specificTrip) {
+      this.specificTrip.expanded = !this.specificTrip.expanded;
+    }
+  }
+  
+  // Method to reload trip details
+  reloadTripDetails(): void {
+    if (this.specificTrip) {
+      this.loading = true;
+      this.error = null;
+      this.loadSpecificTripDetails(this.specificTrip.id);
+    }
   }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy, NgZone, AfterViewInit } from '@angular/core';
+import * as Ably from 'ably';
 import { environment } from '../../../../../environments/environment';
+import { RealtimeChannel } from 'ably';
 
 // Interface for location coordinates
 interface Location {
@@ -28,11 +30,23 @@ export class TrakingComponent implements OnInit, OnDestroy, AfterViewInit {
   maxRetries: number = 3;
   mapsLoaded: boolean = false;
   
+  // Ably related properties
+  private ably: any = null; // Using 'any' to avoid TypeScript errors with Ably
+  private locationChannel: RealtimeChannel | null = null;
+  private userId: string | null = null;
+  private lastPublishedLocation: Location | null = null;
+  private publishIntervalId: any = null;
+  private readonly MIN_DISTANCE_TO_PUBLISH = 0.005; // approximately 5 meters
+  private readonly PUBLISH_INTERVAL = 5000; // 5 seconds
+  
   constructor(private ngZone: NgZone) {}
 
   ngOnInit(): void {
     // Load Google Maps API with proper async loading pattern
     this.loadGoogleMapsAPI();
+    
+    // Initialize Ably and get user ID
+    this.initializeAbly();
   }
 
   ngAfterViewInit(): void {
@@ -47,6 +61,9 @@ export class TrakingComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.watchId !== null) {
       navigator.geolocation.clearWatch(this.watchId);
     }
+    
+    // Clean up Ably resources
+    this.cleanupAbly();
   }
 
   loadGoogleMapsAPI(): void {
@@ -751,5 +768,95 @@ export class TrakingComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     
     console.error('Geolocation error:', errorMessage);
+  }
+
+  initializeAbly(): void {
+    try {
+      // Get user data from localStorage
+      const userData = localStorage.getItem('user');
+      
+      if (userData) {
+        // Parse the JSON string to an object
+        const userObj = JSON.parse(userData);
+        this.userId = userObj.userId?.toString();
+      }
+      
+      if (!this.userId) {
+        console.warn('User ID not found in localStorage. Using anonymous ID.');
+        this.userId = 'anonymous-' + new Date().getTime();
+      }
+      
+      // Initialize Ably client with the promises-based API
+      this.ably = new Ably.Realtime({ key: environment.ablyApiKey });
+      
+      // Set up channel for location updates
+      this.locationChannel = this.ably.channels.get('location-updates');
+      
+      // Set up interval for publishing location (if significant movement detected)
+      this.setupLocationPublishing();
+      
+      console.log('Ably initialized successfully with user ID:', this.userId);
+    } catch (error) {
+      console.error('Error initializing Ably:', error);
+    }
+  }
+  
+  setupLocationPublishing(): void {
+    // Clear any existing interval
+    if (this.publishIntervalId) {
+      clearInterval(this.publishIntervalId);
+    }
+    
+    // Set up interval to check and publish location regularly
+    this.publishIntervalId = setInterval(() => {
+      if (this.currentLocation && this.locationChannel) {
+        this.publishLocationIfChanged();
+      }
+    }, this.PUBLISH_INTERVAL);
+  }
+  
+  publishLocationIfChanged(): void {
+    if (!this.currentLocation || !this.locationChannel || !this.userId) return;
+    
+    // Check if location has changed significantly since last publish
+    if (!this.lastPublishedLocation || 
+        this.calculateDistance(this.currentLocation, this.lastPublishedLocation) > this.MIN_DISTANCE_TO_PUBLISH) {
+      
+      // Prepare location data with user ID
+      const locationData = {
+        userId: this.userId,
+        location: this.currentLocation,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Publish to Ably channel - fixed API usage
+      this.locationChannel.publish('location', locationData)
+        .then(() => {
+          console.log('Location published successfully:', locationData);
+          
+          // Update last published location
+          if (this.currentLocation) {
+            this.lastPublishedLocation = { ...this.currentLocation };
+          }
+        })
+        .catch((err) => {
+          console.error('Error publishing location to Ably:', err);
+        });
+    }
+  }
+  
+  cleanupAbly(): void {
+    // Clear publishing interval
+    if (this.publishIntervalId) {
+      clearInterval(this.publishIntervalId);
+      this.publishIntervalId = null;
+    }
+    
+    // Close Ably connection
+    if (this.ably) {
+      this.ably.close();
+      this.ably = null;
+      this.locationChannel = null;
+    }
   }
 }

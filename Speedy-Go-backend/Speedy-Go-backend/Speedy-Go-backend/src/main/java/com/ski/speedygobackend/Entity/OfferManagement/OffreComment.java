@@ -34,6 +34,8 @@ public class OffreComment {
     
     private LocalDateTime createdAt;
     
+    private Boolean badWord;
+    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
