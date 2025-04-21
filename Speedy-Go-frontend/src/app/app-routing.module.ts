@@ -101,7 +101,8 @@ const routes: Routes = [
       { path: 'home',component:BodyBackComponent,canActivate: [BackofficeAuthGuard]} ,
       { path: 'update-user/:id', component: UpdateUserComponent,canActivate: [BackofficeAuthGuard] },
       { path: 'add-user', component: AddUserComponent ,canActivate: [BackofficeAuthGuard]},  // Route to AddUserComponent
-      { path: 'statistique', loadChildren: () => import('./FrontOffices/modules/statistique/statistique/statistique.module').then(m => m.StatistiqueModule), canActivate: [BackofficeAuthGuard] }
+      { path: 'statistique', loadChildren: () => import('./FrontOffices/modules/statistique/statistique/statistique.module').then(m => m.StatistiqueModule), canActivate: [BackofficeAuthGuard] },
+      { path: 'trip-dashboard', loadChildren: () => import('./FrontOffices/modules/dashboard/dashboard.module').then(m => m.DashboardModule) } // New Trip Dashboard route
   ] },
   {path: 'loginAdmin', component:LoginComponent,},
   {path: 'login', component:LoginclientComponent},

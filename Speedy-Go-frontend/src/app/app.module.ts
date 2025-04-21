@@ -91,7 +91,8 @@ import { TrakingComponent } from './FrontOffices/modules/trips/traking/traking.c
     FormsModule, 
     BrowserAnimationsModule, 
     MatDialogModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    
 ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
