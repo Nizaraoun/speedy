@@ -301,7 +301,6 @@ def main():
         analyzer = VaderSentimentAnalyzer()
         sentiment = analyzer.predict(args.text)
         score = analyzer.analyze_sentiment(args.text)
-        
         print(f"Text: {args.text}")
         print(f"Predicted sentiment: {sentiment}")
         if args.score:

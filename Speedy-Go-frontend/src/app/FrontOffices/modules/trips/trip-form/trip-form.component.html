@@ -121,7 +121,10 @@
                 class="form-select"
                 [ngClass]="{'is-invalid': isFieldInvalid('trip_status')}">
                 <option value="" disabled selected>Select status</option>
-                <option *ngFor="let status of tripStatusOptions" [value]="status">{{status}}</option>
+                <option value="matin">Matin (8h - 12h)</option>
+                <option value="apres_mdi">Apres Midi (12h - 17h)</option>
+                <option value="soiree">Soirée (17h - 21h)</option>
+                <option value="aucun">Aucun</option>
               </select>
             </div>
             <div *ngIf="isFieldInvalid('trip_status')" class="text-danger small mt-1">

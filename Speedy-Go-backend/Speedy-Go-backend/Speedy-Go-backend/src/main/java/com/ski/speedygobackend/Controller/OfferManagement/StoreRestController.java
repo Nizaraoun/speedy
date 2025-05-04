@@ -101,8 +101,28 @@ public class StoreRestController {
     }
 
     @PutMapping("/update/{id-store}")
-    public ResponseEntity<Store> updateStore(@RequestBody Store store, @PathVariable("id-store") Long idStore) {
-        return ResponseEntity.ok(storeServices.updateStore(store, idStore));
+    public ResponseEntity<Store> updateStore(@RequestPart("store") Store store, 
+                                           @RequestPart(value = "file", required = false) MultipartFile file,
+                                           @PathVariable("id-store") Long idStore) {
+        try {
+            // Handle file upload only if a file was provided
+            if (file != null && !file.isEmpty()) {
+                try {
+                    String imagePath = uploadImage.uploadStoreImage(file, "upload/store");
+                    store.setImage(imagePath);
+                } catch (Exception e) {
+                    return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(null);
+                }
+            }
+            
+            return ResponseEntity.ok(storeServices.updateStore(store, idStore));
+        } catch (Exception e) {
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
+        }
     }
 
     @DeleteMapping("/delete/{id-store}")

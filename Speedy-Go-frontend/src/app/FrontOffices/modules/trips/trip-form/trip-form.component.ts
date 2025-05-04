@@ -10,7 +10,7 @@ import { TripService } from '../trip/trip.service';
 export class TripFormComponent implements OnInit {
   tripForm!: FormGroup;
   isSubmitting = false;
-  tripStatusOptions = ['PENDING', 'SCHEDULED', 'CANCELLED', 'COMPLETED','INPROGRESS'];
+  tripStatusOptions = ['matin', 'apres_mdi', 'soiree', 'aucun'];
 
   constructor(
     private fb: FormBuilder,

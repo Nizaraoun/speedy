@@ -25,13 +25,13 @@
         All
       </button>
       <button class="trip-filter-btn" [class.active]="activeFilter === 'active'" (click)="filterTrips('active')">
-        Active
+        Morning & Afternoon
       </button>
       <button class="trip-filter-btn" [class.active]="activeFilter === 'completed'" (click)="filterTrips('completed')">
-        Completed
+        Evening
       </button>
       <button class="trip-filter-btn" [class.active]="activeFilter === 'cancelled'" (click)="filterTrips('cancelled')">
-        Cancelled
+        None
       </button>
     </div>
   </div>
@@ -80,7 +80,7 @@
       <div class="trip-card">
         <div class="trip-card-header">
           <div class="trip-card-badge" [ngClass]="getStatusBadgeClass(trip.trip_status)">
-            {{ trip.trip_status }}
+            {{ getStatusDisplayText(trip.trip_status) }}
           </div>
           <div class="trip-card-menu">
             <button class="trip-card-menu-btn" type="button" (click)="trip.expanded = !trip.expanded">
@@ -176,7 +176,7 @@
       <div class="trip-card trip-card-specific">
         <div class="trip-card-header">
           <div class="trip-card-badge" [ngClass]="getStatusBadgeClass(trip.trip_status)">
-            {{ trip.trip_status }}
+            {{ getStatusDisplayText(trip.trip_status) }}
           </div>
           <div class="trip-card-menu">
             <button class="trip-card-menu-btn" type="button" (click)="trip.expanded = !trip.expanded">
@@ -267,31 +267,5 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content trip-modal-content">
-        <div class="modal-header trip-modal-header">
-          <h2 class="modal-title trip-modal-title">
-            <i class="bi bi-exclamation-triangle-fill trip-modal-icon"></i>
-            Confirm Deletion
-          </h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body trip-modal-body">
-          <div class="trip-alert-warning">
-            <i class="bi bi-exclamation-octagon"></i>
-            <p>This action is permanent and cannot be undone</p>
-          </div>
-          <p class="trip-delete-message">Delete trip to <strong>{{ tripToDelete?.description }}</strong>?</p>
-        </div>
-        <div class="modal-footer trip-modal-footer">
-          <button type="button" class="trip-btn-cancel" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="trip-btn-delete" (click)="deleteTrip()" [disabled]="isDeleting">
-            <i class="bi bi-trash me-2"></i>
-            {{ isDeleting ? 'Deleting...' : 'Delete Forever' }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </div>

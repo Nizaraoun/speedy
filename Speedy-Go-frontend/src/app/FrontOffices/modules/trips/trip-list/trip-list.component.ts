@@ -85,12 +85,12 @@ export class TripListComponent implements OnInit {
       this.filteredTrips = [...this.trips];
     } else if (filterType === 'active') {
       this.filteredTrips = this.trips.filter(trip => 
-        trip.trip_status === 'INPROGRESS' || trip.trip_status === 'SCHEDULED' || trip.trip_status === 'PENDING'
+        trip.trip_status === 'matin' || trip.trip_status === 'apres_mdi'
       );
     } else if (filterType === 'completed') {
-      this.filteredTrips = this.trips.filter(trip => trip.trip_status === 'COMPLETED');
+      this.filteredTrips = this.trips.filter(trip => trip.trip_status === 'soiree');
     } else if (filterType === 'cancelled') {
-      this.filteredTrips = this.trips.filter(trip => trip.trip_status === 'CANCELLED');
+      this.filteredTrips = this.trips.filter(trip => trip.trip_status === 'aucun');
     }
     
     // Apply search term if exists
@@ -121,18 +121,31 @@ export class TripListComponent implements OnInit {
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'PENDING':
+      case 'matin':
         return 'bg-info';
-      case 'INPROGRESS':
+      case 'apres_mdi':
         return 'bg-warning';
-      case 'COMPLETED':
+      case 'soiree':
         return 'bg-success';
-      case 'CANCELLED':
+      case 'aucun':
         return 'bg-danger';
-      case 'SCHEDULED':
-        return 'bg-secondary';
       default:
         return 'bg-primary';
+    }
+  }
+
+  getStatusDisplayText(status: string): string {
+    switch (status) {
+      case 'matin':
+        return 'Matin (8h - 12h)';
+      case 'apres_mdi':
+        return 'Apres Midi (12h - 17h)';
+      case 'soiree':
+        return 'Soirée (17h - 21h)';
+      case 'aucun':
+        return 'Aucun';
+      default:
+        return status;
     }
   }
 

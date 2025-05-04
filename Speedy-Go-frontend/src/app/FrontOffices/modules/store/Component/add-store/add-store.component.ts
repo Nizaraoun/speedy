@@ -106,7 +106,7 @@ export class addstoreComponent implements OnInit {
       }
 
       if (this.dialogTitle === 'Edit Store') {
-        this.storeService.updateStore(storeData).subscribe({
+        this.storeService.updateStore(storeData, this.selectedFile || undefined).subscribe({
           next: () => {
             this.isSubmitting = false;
             this.router.navigate(['/storlist']);

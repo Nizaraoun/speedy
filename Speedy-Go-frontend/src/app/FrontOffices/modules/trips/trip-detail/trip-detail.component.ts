@@ -51,12 +51,15 @@ export class TripDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    // Reload the entire page when component initializes
+    
     this.route.paramMap.subscribe(() => {
       this.loadTrip();
     });
 
     // Load Google Maps API script
     this.loadGoogleMapsScript();
+    
   }
 
   ngAfterViewInit(): void {

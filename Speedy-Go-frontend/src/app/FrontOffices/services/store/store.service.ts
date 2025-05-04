@@ -43,8 +43,23 @@ export class StoreService {
     });
   }
 
-  updateStore(store: Store): Observable<Store> {
-    return this.http.put<Store>(`${this.API_URL}/update/${store.storeID}`, store, { headers: this.getHeaders() });
+  updateStore(store: Store, file?: File): Observable<Store> {
+    const formData = new FormData();
+    formData.append('store', new Blob([JSON.stringify(store)], { type: 'application/json' }));
+    
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+    
+    return this.http.put<Store>(
+      `${this.API_URL}/update/${store.storeID}`, 
+      formData,
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        })
+      }
+    );
   }
 
   deleteStore(id: number): Observable<void> {
